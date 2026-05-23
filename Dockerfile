@@ -5,9 +5,10 @@ FROM node:24-alpine AS builder
 
 WORKDIR /app
 
-# Instalar dependencias (con caché de npm si package*.json no cambia)
+# Instalar dependencias (usa npm install para tolerar deps opcionales
+# platform-specific como @emnapi/core que no siempre están en el lock)
 COPY package.json package-lock.json ./
-RUN npm ci --no-audit --no-fund
+RUN npm install --no-audit --no-fund --prefer-offline
 
 # Copiar el resto del código y compilar
 COPY . .
