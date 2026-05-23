@@ -1,0 +1,140 @@
+.product-info {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  &__category {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--color-primary);
+    font-weight: 600;
+  }
+
+  &__title {
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+    color: var(--color-text);
+    margin: 0;
+  }
+
+  &__brand {
+    font-size: 15px;
+    color: var(--color-text-secondary);
+    margin: 0;
+  }
+
+  &__rating-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  &__reviews-count {
+    font-size: 13px;
+    color: var(--color-text-secondary);
+  }
+
+  &__description {
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+    margin: 4px 0;
+  }
+
+  &__price-section {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 8px 0;
+  }
+
+  &__price {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--color-text);
+  }
+
+  &__discount {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--color-danger);
+    background: rgba(255, 59, 48, 0.1);
+    padding: 3px 10px;
+    border-radius: 20px;
+  }
+
+  /* meta info */
+  &__meta {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 16px 0;
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  &__meta-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__meta-label {
+    font-size: 13px;
+    color: var(--color-text-secondary);
+  }
+
+  &__meta-value {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--color-text);
+
+    &--low {
+      color: #ff9500;
+    }
+
+    &--out {
+      color: var(--color-danger);
+    }
+  }
+
+  /* botón */
+  &__add-btn {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: var(--radius-md);
+    background: var(--color-primary);
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+    margin-top: 8px;
+    transition: background-color 0.2s ease;
+
+    &:hover:not(:disabled) {
+      background: var(--color-primary-hover);
+    }
+
+    &:disabled {
+      background: var(--color-border);
+      cursor: not-allowed;
+      color: var(--color-text-secondary);
+    }
+  }
+}
+
+@media (max-width: 640px) {
+  .product-info {
+    &__title {
+      font-size: 24px;
+    }
+
+    &__price {
+      font-size: 24px;
+    }
+  }
+}

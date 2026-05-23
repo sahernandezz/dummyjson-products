@@ -1,0 +1,56 @@
+<div class="product-info">
+  <span class="product-info__category">{{ product.category }}</span>
+  <h1 class="product-info__title">{{ product.title }}</h1>
+
+  @if (product.brand) {
+    <p class="product-info__brand">{{ product.brand }}</p>
+  }
+
+  <div class="product-info__rating-row">
+    <app-star-rating [rating]="product.rating"></app-star-rating>
+    <span class="product-info__reviews-count">({{ product.reviews.length }} reseñas)</span>
+  </div>
+
+  <p class="product-info__description">{{ product.description }}</p>
+
+  <div class="product-info__price-section">
+    <span class="product-info__price">{{ product.price | currencyCop }}</span>
+    @if (product.discountPercentage > 5) {
+      <span class="product-info__discount">-{{ product.discountPercentage | number:'1.0-0' }}%</span>
+    }
+  </div>
+
+  <div class="product-info__meta">
+    <div class="product-info__meta-item">
+      <span class="product-info__meta-label">Disponibilidad</span>
+      <span class="product-info__meta-value"
+            [class.product-info__meta-value--low]="product.stock < 10"
+            [class.product-info__meta-value--out]="product.stock === 0">
+        {{ product.availabilityStatus }} ({{ product.stock }} unidades)
+      </span>
+    </div>
+    <div class="product-info__meta-item">
+      <span class="product-info__meta-label">Envío</span>
+      <span class="product-info__meta-value">{{ product.shippingInformation }}</span>
+    </div>
+    <div class="product-info__meta-item">
+      <span class="product-info__meta-label">Garantía</span>
+      <span class="product-info__meta-value">{{ product.warrantyInformation }}</span>
+    </div>
+    <div class="product-info__meta-item">
+      <span class="product-info__meta-label">Devolución</span>
+      <span class="product-info__meta-value">{{ product.returnPolicy }}</span>
+    </div>
+  </div>
+
+  <button
+    class="product-info__add-btn"
+    (click)="addToCart.emit()"
+    [disabled]="product.stock === 0">
+    @if (product.stock > 0) {
+      Agregar al carrito
+    } @else {
+      Sin stock
+    }
+  </button>
+</div>
