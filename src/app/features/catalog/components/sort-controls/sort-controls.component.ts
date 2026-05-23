@@ -30,24 +30,33 @@ export type SortOption = 'default' | 'price-asc' | 'price-desc' | 'rating-asc' |
 
       &__label {
         font-size: 13px;
-        color: #6e6e73;
+        color: var(--color-text-secondary);
         white-space: nowrap;
+        font-weight: 500;
       }
 
       &__select {
         appearance: none;
-        padding: 8px 32px 8px 12px;
-        border: 1px solid #d2d2d7;
-        border-radius: 8px;
-        font-size: 14px;
-        color: #1d1d1f;
-        background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M6 8L1 3h10z' fill='%236e6e73'/%3E%3C/svg%3E") no-repeat right 10px center;
+        padding: 9px 36px 9px 14px;
+        border: 1px solid var(--color-border-light);
+        border-radius: var(--radius-md);
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--color-text);
+        background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath d='M5 7L1 3h8z' fill='%236e6e73'/%3E%3C/svg%3E") no-repeat right 14px center;
         cursor: pointer;
         outline: none;
         font-family: inherit;
+        transition: all 0.18s var(--ease-out);
+
+        &:hover {
+          border-color: var(--color-border);
+          background-color: var(--color-bg-tertiary);
+        }
 
         &:focus {
-          border-color: #0071e3;
+          border-color: var(--color-primary);
+          box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.12);
         }
       }
     }

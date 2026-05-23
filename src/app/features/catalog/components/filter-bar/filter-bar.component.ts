@@ -27,32 +27,43 @@ import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from 
       display: flex;
       gap: 8px;
       overflow-x: auto;
-      padding: 4px 0;
+      padding: 2px 0;
       scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+      mask-image: linear-gradient(to right, #000 0, #000 calc(100% - 24px), transparent 100%);
 
       &::-webkit-scrollbar { display: none; }
 
       &__chip {
         white-space: nowrap;
-        padding: 7px 16px;
-        border-radius: 20px;
-        border: 1px solid #d2d2d7;
+        padding: 8px 16px;
+        border-radius: 999px;
+        border: 1px solid var(--color-border-light);
         background: #fff;
-        color: #1d1d1f;
+        color: var(--color-text);
         font-size: 13px;
         font-weight: 500;
         font-family: inherit;
-        transition: all 0.2s ease;
+        letter-spacing: -0.005em;
+        transition: all 0.2s var(--ease-out);
         flex-shrink: 0;
+        text-transform: capitalize;
 
         &:hover:not(&--active) {
-          background: #f5f5f7;
+          background: var(--color-bg-tertiary);
+          border-color: var(--color-border);
+          transform: translateY(-1px);
+        }
+
+        &:active {
+          transform: scale(0.96);
         }
 
         &--active {
-          background: #1d1d1f;
+          background: var(--color-text);
           color: #fff;
-          border-color: #1d1d1f;
+          border-color: var(--color-text);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
       }
     }

@@ -1,14 +1,23 @@
 .product-card {
+  position: relative;
   background: #fff;
   border-radius: var(--radius-lg);
   overflow: hidden;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  transition: transform 0.35s var(--ease-out), box-shadow 0.35s var(--ease-out);
   display: flex;
   flex-direction: column;
+  border: 1px solid var(--color-border-light);
+  animation: fadeInUp 0.4s var(--ease-out) backwards;
 
   &:hover {
-    transform: translateY(-4px);
+    transform: translateY(-6px);
     box-shadow: var(--shadow-lg);
+    border-color: transparent;
+
+    .product-card__cart-btn {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
   &__link {
@@ -20,12 +29,15 @@
 
     &:hover {
       text-decoration: none;
+      color: inherit;
     }
   }
 
+  /* Imagen */
   &__image-wrapper {
     position: relative;
-    background: var(--color-bg-secondary);
+    background: var(--color-bg-tertiary);
+    overflow: hidden;
   }
 
   &__badge {
@@ -33,16 +45,19 @@
     top: 12px;
     left: 12px;
     z-index: 2;
-    padding: 4px 10px;
-    border-radius: 20px;
+    padding: 5px 10px;
+    border-radius: var(--radius-full);
     background: var(--color-danger);
     color: #fff;
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 600;
+    letter-spacing: 0.01em;
+    box-shadow: 0 2px 6px rgba(255, 59, 48, 0.25);
   }
 
+  /* Info */
   &__info {
-    padding: 16px;
+    padding: 16px 16px 12px;
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -50,11 +65,11 @@
   }
 
   &__category {
-    font-size: 12px;
+    font-size: 11px;
     text-transform: uppercase;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.06em;
     color: var(--color-primary);
-    font-weight: 500;
+    font-weight: 600;
   }
 
   &__title {
@@ -62,66 +77,86 @@
     font-weight: 600;
     color: var(--color-text);
     line-height: 1.3;
+    letter-spacing: -0.01em;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
     margin: 0;
+    min-height: 2.6em;
   }
 
   &__price-row {
     display: flex;
     align-items: baseline;
     justify-content: space-between;
-    margin-top: 4px;
+    margin-top: 6px;
     gap: 8px;
   }
 
   &__price {
-    font-size: 17px;
-    font-weight: 600;
+    font-size: 18px;
+    font-weight: 700;
     color: var(--color-text);
     letter-spacing: -0.02em;
   }
 
   &__stock {
-    font-size: 12px;
-    color: var(--color-text-secondary);
+    font-size: 11px;
+    color: var(--color-text-tertiary);
+    font-weight: 500;
 
     &--low {
-      color: var(--color-danger);
-      font-weight: 500;
+      color: var(--color-warning);
     }
   }
 
+  /* Botón agregar */
   &__cart-btn {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 6px;
-    width: calc(100% - 32px);
-    margin: 0 16px 16px;
-    padding: 10px;
+    width: calc(100% - 24px);
+    margin: 0 12px 12px;
+    padding: 10px 16px;
     border: none;
-    border-radius: var(--radius-sm);
-    background: var(--color-primary);
+    border-radius: var(--radius-md);
+    background: var(--color-text);
     color: #fff;
-    font-size: 14px;
-    font-weight: 500;
-    transition: background-color 0.2s ease;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 0.25s var(--ease-out), transform 0.25s var(--ease-out), background-color 0.18s var(--ease-out);
 
     &:hover:not(:disabled) {
-      background: var(--color-primary-hover);
+      background: #000;
+    }
+
+    &:active:not(:disabled) {
+      transform: translateY(0) scale(0.97);
     }
 
     &:disabled {
       background: var(--color-border);
       cursor: not-allowed;
+      opacity: 1;
+      transform: translateY(0);
     }
   }
 
   &__cart-icon {
-    width: 16px;
-    height: 16px;
+    width: 14px;
+    height: 14px;
+  }
+
+  /* En móvil mostramos el botón siempre, no en hover */
+  @media (max-width: 768px) {
+    &__cart-btn {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 }
