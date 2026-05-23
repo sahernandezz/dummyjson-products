@@ -46,6 +46,33 @@ ng test               # Ejecutar tests unitarios
 ng test --watch       # Tests en modo watch
 ```
 
+## Docker
+
+El proyecto incluye un `Dockerfile` multi-stage (Node para build, nginx para servir) y un `docker-compose.yml` listo para usar.
+
+```bash
+# Construir y levantar
+docker compose up --build
+
+# En segundo plano
+docker compose up -d --build
+
+# Ver logs
+docker compose logs -f
+
+# Detener
+docker compose down
+```
+
+La aplicación quedará disponible en `http://localhost:8080`.
+
+El contenedor de producción:
+- Sirve los archivos compilados con **nginx alpine** (~50MB final)
+- Incluye **gzip** y **cache-control** agresivo para assets con hash
+- SPA fallback para que las rutas de Angular Router funcionen
+- Headers de seguridad: `X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy`
+- Healthcheck cada 30s
+
 ## Estructura del proyecto
 
 ```
@@ -183,3 +210,5 @@ El proyecto sigue el flujo Gitflow con versionado semántico:
 | `v1.0.1` | Hotfix: corrección del carrusel que no cambiaba de imagen |
 | `v1.1.0` | UI/UX redesign: design tokens, animaciones, mejor tipografía |
 | `v1.2.0` | UI polish: footer, back-to-top, breadcrumb mejorado, precio original |
+| `v1.3.0` | UX improvements: cards uniformes, breadcrumb funcional, detalle rediseñado, productos relacionados |
+| `v1.4.0` | Card click fix, CTA negro, meta info, Docker + nginx setup |

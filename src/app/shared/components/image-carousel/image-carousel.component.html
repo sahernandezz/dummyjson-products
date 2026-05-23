@@ -7,13 +7,13 @@
     />
 
     @if (images.length > 1) {
-      <button class="carousel__btn carousel__btn--prev" (click)="prev()" aria-label="Imagen anterior">
+      <button type="button" class="carousel__btn carousel__btn--prev" (click)="prev($event)" aria-label="Imagen anterior">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5"/>
         </svg>
       </button>
 
-      <button class="carousel__btn carousel__btn--next" (click)="next()" aria-label="Siguiente imagen">
+      <button type="button" class="carousel__btn carousel__btn--next" (click)="next($event)" aria-label="Siguiente imagen">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/>
         </svg>
@@ -26,9 +26,10 @@
     <div class="carousel__dots">
       @for (img of images; track $index) {
         <button
+          type="button"
           class="carousel__dot"
           [class.carousel__dot--active]="$index === currentIndex()"
-          (click)="goTo($index)"
+          (click)="goTo($index, $event)"
           [attr.aria-label]="'Ir a imagen ' + ($index + 1)">
         </button>
       }
