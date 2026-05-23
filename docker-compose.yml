@@ -1,0 +1,22 @@
+services:
+  catalogo:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: dummyjson-products:latest
+    container_name: catalogo-productos
+    ports:
+      - "8080:80"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost/"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 10s
+    networks:
+      - catalogo-net
+
+networks:
+  catalogo-net:
+    driver: bridge
