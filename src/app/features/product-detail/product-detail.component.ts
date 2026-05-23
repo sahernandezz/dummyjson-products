@@ -6,10 +6,11 @@ import { CartService } from '../../core/services/cart.service';
 import { NotificationService } from '../../core/services/notification.service';
 import { Product } from '../../core/models/product.model';
 import { ImageCarouselComponent } from '../../shared/components/image-carousel/image-carousel.component';
-import { LoadingSkeletonComponent } from '../../shared/components/loading-skeleton/loading-skeleton.component';
 import { ProductInfoComponent } from './components/product-info/product-info.component';
 import { ProductDimensionsComponent } from './components/product-dimensions/product-dimensions.component';
 import { ProductReviewsComponent } from './components/product-reviews/product-reviews.component';
+import { DetailSkeletonComponent } from './components/detail-skeleton/detail-skeleton.component';
+import { RelatedProductsComponent } from './components/related-products/related-products.component';
 
 @Component({
   selector: 'app-product-detail',
@@ -17,10 +18,11 @@ import { ProductReviewsComponent } from './components/product-reviews/product-re
   imports: [
     RouterLink,
     ImageCarouselComponent,
-    LoadingSkeletonComponent,
     ProductInfoComponent,
     ProductDimensionsComponent,
-    ProductReviewsComponent
+    ProductReviewsComponent,
+    DetailSkeletonComponent,
+    RelatedProductsComponent
   ],
   templateUrl: './product-detail.component.html',
   styleUrl: './product-detail.component.scss'
@@ -41,6 +43,8 @@ export class ProductDetailComponent implements OnInit {
         switchMap(params => {
           this.isLoading.set(true);
           this.hasError.set(false);
+          // scroll al top al cambiar de producto
+          window.scrollTo({ top: 0, behavior: 'smooth' });
           const id = Number(params['id']);
           return this.productService.getProductById(id);
         }),

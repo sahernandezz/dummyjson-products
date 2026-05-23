@@ -4,7 +4,8 @@
     <a routerLink="/" class="detail__breadcrumb-link">Catálogo</a>
     @if (product(); as p) {
       <span class="detail__breadcrumb-sep" aria-hidden="true">›</span>
-      <a [routerLink]="['/']" [queryParams]="{}" class="detail__breadcrumb-link detail__breadcrumb-link--cat">
+      <a [routerLink]="['/']" [queryParams]="{ category: p.category }"
+         class="detail__breadcrumb-link detail__breadcrumb-link--cat">
         {{ p.category }}
       </a>
       <span class="detail__breadcrumb-sep" aria-hidden="true">›</span>
@@ -13,7 +14,7 @@
   </nav>
 
   @if (isLoading()) {
-    <app-loading-skeleton [count]="1"></app-loading-skeleton>
+    <app-detail-skeleton></app-detail-skeleton>
   } @else if (hasError()) {
     <div class="detail__error">
       <span class="detail__error-icon">😕</span>
@@ -50,5 +51,11 @@
         [reviews]="p.reviews">
       </app-product-reviews>
     </div>
+
+    <!-- Productos relacionados -->
+    <app-related-products
+      [category]="p.category"
+      [excludeId]="p.id">
+    </app-related-products>
   }
 </section>
