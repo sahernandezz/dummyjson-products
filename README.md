@@ -149,9 +149,9 @@ Se incluyen tests unitarios para:
 
 - **Servicios**: `CartService` (13 tests), `ProductService` (6 tests), `NotificationService` (7 tests)
 - **Pipes**: `CurrencyCopPipe` (7 tests)
-- **Componentes**: `ProductCardComponent` (6 tests), `SortControlsComponent` (4 tests), `App` (3 tests)
+- **Componentes**: `ProductCardComponent` (6 tests), `SortControlsComponent` (4 tests), `App` (4 tests), `FooterComponent` (5 tests), `ScrollTopComponent` (5 tests)
 
-Total: **47 tests** cubriendo la lógica de negocio principal, llamadas HTTP con mocks, y renderizado de componentes.
+Total: **58 tests** cubriendo la lógica de negocio principal, llamadas HTTP con mocks, y renderizado de componentes.
 
 ## API consumida
 
@@ -165,16 +165,21 @@ La aplicación consume la API pública de [DummyJSON](https://dummyjson.com/docs
 | `GET /products/category/{slug}` | Filtrar por categoría |
 | `GET /products/search?q=...` | Búsqueda por texto |
 
-## Branching (Gitflow)
+## Branching (Gitflow) y versionamiento
 
-El proyecto sigue el flujo Gitflow:
+El proyecto sigue el flujo Gitflow con versionado semántico:
 
-- `main` — código estable para producción
+- `main` — releases estables (cada uno con su tag anotado)
 - `develop` — integración de features
-- `feature/*` — ramas por funcionalidad:
-  - `feature/core-services`
-  - `feature/shared-components`
-  - `feature/catalog`
-  - `feature/product-detail`
-  - `feature/cart`
-  - `feature/app-integration`
+- `feature/*` — ramas por funcionalidad (eliminadas tras merge)
+- `release/*` — preparación de releases (eliminadas tras tag)
+- `hotfix/*` — correcciones urgentes en producción
+
+### Releases
+
+| Versión | Descripción |
+|---------|-------------|
+| `v1.0.0` | Catálogo inicial completo con todas las funcionalidades base |
+| `v1.0.1` | Hotfix: corrección del carrusel que no cambiaba de imagen |
+| `v1.1.0` | UI/UX redesign: design tokens, animaciones, mejor tipografía |
+| `v1.2.0` | UI polish: footer, back-to-top, breadcrumb mejorado, precio original |
