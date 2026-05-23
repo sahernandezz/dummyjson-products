@@ -1,16 +1,23 @@
 <section class="catalog">
-  <!-- Encabezado -->
+  <!-- Header del catálogo -->
   <div class="catalog__header">
     <div class="catalog__title-row">
-      <h1 class="catalog__title">
-        @if (searchQuery()) {
-          Resultados para "{{ searchQuery() }}"
-        } @else if (selectedCategory()) {
-          {{ selectedCategory() }}
-        } @else {
-          Todos los productos
-        }
-      </h1>
+      <div class="catalog__title-block">
+        <span class="catalog__eyebrow">
+          @if (searchQuery()) { Búsqueda }
+          @else if (selectedCategory()) { Categoría }
+          @else { Tienda }
+        </span>
+        <h1 class="catalog__title">
+          @if (searchQuery()) {
+            "{{ searchQuery() }}"
+          } @else if (selectedCategory()) {
+            {{ selectedCategory() }}
+          } @else {
+            Todos los productos
+          }
+        </h1>
+      </div>
       @if (!isLoading()) {
         <span class="catalog__count">{{ totalProducts() }} productos</span>
       }
@@ -52,7 +59,7 @@
       }
     </div>
 
-    <!-- Indicador de carga -->
+    <!-- Indicador de carga adicional -->
     @if (isLoadingMore()) {
       <div class="catalog__loading-more">
         <div class="catalog__spinner"></div>
@@ -61,7 +68,7 @@
     }
 
     @if (!hasMore() && sortedProducts().length > 0) {
-      <p class="catalog__end-message">Has visto todos los productos</p>
+      <p class="catalog__end-message">Has visto todos los productos disponibles</p>
     }
   }
 </section>
