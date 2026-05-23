@@ -1,59 +1,117 @@
 <div class="product-info">
-  <span class="product-info__category">{{ product.category }}</span>
-  <h1 class="product-info__title">{{ product.title }}</h1>
+  <!-- Header: categoría + título -->
+  <header class="product-info__header">
+    <span class="product-info__category">{{ product.category }}</span>
+    <h1 class="product-info__title">{{ product.title }}</h1>
+    @if (product.brand) {
+      <p class="product-info__brand">por {{ product.brand }}</p>
+    }
+  </header>
 
-  @if (product.brand) {
-    <p class="product-info__brand">{{ product.brand }}</p>
-  }
-
+  <!-- Rating compacto -->
   <div class="product-info__rating-row">
     <app-star-rating [rating]="product.rating"></app-star-rating>
-    <span class="product-info__reviews-count">({{ product.reviews.length }} reseñas)</span>
-  </div>
-
-  <p class="product-info__description">{{ product.description }}</p>
-
-  <div class="product-info__price-section">
-    <span class="product-info__price">{{ product.price | currencyCop }}</span>
-    @if (product.discountPercentage > 5) {
-      <span class="product-info__price-original">
-        {{ originalPrice() | currencyCop }}
-      </span>
-      <span class="product-info__discount">-{{ product.discountPercentage | number:'1.0-0' }}%</span>
+    @if (product.reviews.length > 0) {
+      <span class="product-info__reviews-count">· {{ product.reviews.length }} reseña{{ product.reviews.length === 1 ? '' : 's' }}</span>
     }
   </div>
 
-  <div class="product-info__meta">
-    <div class="product-info__meta-item">
-      <span class="product-info__meta-label">Disponibilidad</span>
-      <span class="product-info__meta-value"
-            [class.product-info__meta-value--low]="product.stock < 10"
-            [class.product-info__meta-value--out]="product.stock === 0">
-        {{ product.availabilityStatus }} ({{ product.stock }} unidades)
-      </span>
+  <!-- Tags -->
+  @if (product.tags && product.tags.length > 0) {
+    <div class="product-info__tags">
+      @for (tag of product.tags; track tag) {
+        <span class="product-info__tag">{{ tag }}</span>
+      }
     </div>
-    <div class="product-info__meta-item">
-      <span class="product-info__meta-label">Envío</span>
-      <span class="product-info__meta-value">{{ product.shippingInformation }}</span>
+  }
+
+  <!-- Descripción -->
+  <p class="product-info__description">{{ product.description }}</p>
+
+  <!-- Precio destacado -->
+  <div class="product-info__price-card">
+    <div class="product-info__price-section">
+      <span class="product-info__price">{{ product.price | currencyCop }}</span>
+      @if (product.discountPercentage > 5) {
+        <div class="product-info__price-discount">
+          <span class="product-info__price-original">
+            {{ originalPrice() | currencyCop }}
+          </span>
+          <span class="product-info__discount">
+            Ahorras {{ product.discountPercentage | number:'1.0-0' }}%
+          </span>
+        </div>
+      }
     </div>
-    <div class="product-info__meta-item">
-      <span class="product-info__meta-label">Garantía</span>
-      <span class="product-info__meta-value">{{ product.warrantyInformation }}</span>
-    </div>
-    <div class="product-info__meta-item">
-      <span class="product-info__meta-label">Devolución</span>
-      <span class="product-info__meta-value">{{ product.returnPolicy }}</span>
+
+    <!-- Status de disponibilidad -->
+    <div class="product-info__availability"
+         [class.product-info__availability--low]="product.stock < 10 && product.stock > 0"
+         [class.product-info__availability--out]="product.stock === 0">
+      @if (product.stock > 10) {
+        <span class="product-info__availability-dot"></span>
+        En stock · {{ product.stock }} disponibles
+      } @else if (product.stock > 0) {
+        <span class="product-info__availability-dot"></span>
+        Quedan {{ product.stock }} unidades
+      } @else {
+        <span class="product-info__availability-dot"></span>
+        Agotado
+      }
     </div>
   </div>
 
+  <!-- Botón principal: negro premium estilo Apple -->
   <button
     class="product-info__add-btn"
     (click)="addToCart.emit()"
     [disabled]="product.stock === 0">
     @if (product.stock > 0) {
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+        <path d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"/>
+      </svg>
       Agregar al carrito
     } @else {
       Sin stock
     }
   </button>
+
+  <!-- Meta info (envío, garantía, devolución) -->
+  <div class="product-info__meta">
+    <div class="product-info__meta-item">
+      <span class="product-info__meta-icon" aria-hidden="true">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12"/>
+        </svg>
+      </span>
+      <div class="product-info__meta-text">
+        <span class="product-info__meta-label">Envío</span>
+        <span class="product-info__meta-value">{{ product.shippingInformation }}</span>
+      </div>
+    </div>
+
+    <div class="product-info__meta-item">
+      <span class="product-info__meta-icon" aria-hidden="true">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z"/>
+        </svg>
+      </span>
+      <div class="product-info__meta-text">
+        <span class="product-info__meta-label">Garantía</span>
+        <span class="product-info__meta-value">{{ product.warrantyInformation }}</span>
+      </div>
+    </div>
+
+    <div class="product-info__meta-item">
+      <span class="product-info__meta-icon" aria-hidden="true">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3"/>
+        </svg>
+      </span>
+      <div class="product-info__meta-text">
+        <span class="product-info__meta-label">Devolución</span>
+        <span class="product-info__meta-value">{{ product.returnPolicy }}</span>
+      </div>
+    </div>
+  </div>
 </div>

@@ -1,5 +1,5 @@
 import { Component, inject, OnInit, OnDestroy, signal, computed, HostListener } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subject, takeUntil, switchMap, tap, finalize } from 'rxjs';
 import { ProductService } from '../../core/services/product.service';
 import { CartService } from '../../core/services/cart.service';
@@ -29,6 +29,7 @@ export class CatalogComponent implements OnInit, OnDestroy {
   private cartService = inject(CartService);
   private notification = inject(NotificationService);
   private route = inject(ActivatedRoute);
+  private router = inject(Router);
   private destroy$ = new Subject<void>();
 
   // estado
@@ -71,12 +72,14 @@ export class CatalogComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe(cats => this.categories.set(cats));
 
-    // escuchar cambios en query params (búsqueda)
+    // escuchar cambios en query params (búsqueda + categoría)
     this.route.queryParams
       .pipe(takeUntil(this.destroy$))
       .subscribe(params => {
         const query = params['q'] || '';
+        const category = params['category'] || '';
         this.searchQuery.set(query);
+        this.selectedCategory.set(category);
         this.resetAndLoad();
       });
   }
@@ -91,8 +94,12 @@ export class CatalogComponent implements OnInit, OnDestroy {
   }
 
   onCategoryChange(category: string): void {
-    this.selectedCategory.set(category);
-    this.resetAndLoad();
+    // actualizar URL — el suscriptor de queryParams hará el resto
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { category: category || null },
+      queryParamsHandling: 'merge'
+    });
   }
 
   onAddToCart(product: Product): void {

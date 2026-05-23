@@ -1,0 +1,111 @@
+.related {
+  margin-top: 64px;
+  padding-top: 40px;
+  border-top: 1px solid var(--color-border-light);
+  animation: fadeInUp 0.4s var(--ease-out);
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 16px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+  }
+
+  &__title-block {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  &__eyebrow {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-primary);
+    font-weight: 600;
+  }
+
+  &__title {
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    color: var(--color-text);
+    margin: 0;
+    text-transform: capitalize;
+  }
+
+  &__nav {
+    display: flex;
+    gap: 8px;
+  }
+
+  &__nav-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 1px solid var(--color-border-light);
+    background: #fff;
+    color: var(--color-text);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.18s var(--ease-out);
+
+    svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    &:hover {
+      background: var(--color-bg-tertiary);
+      border-color: var(--color-border);
+      transform: translateY(-1px);
+    }
+
+    &:active {
+      transform: scale(0.94);
+    }
+  }
+
+  /* Scroll horizontal */
+  &__scroll {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    padding: 4px 0 16px;
+    scrollbar-width: none;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    mask-image: linear-gradient(to right, #000 0, #000 calc(100% - 32px), transparent 100%);
+
+    &::-webkit-scrollbar { display: none; }
+  }
+
+  &__item {
+    flex: 0 0 260px;
+    scroll-snap-align: start;
+  }
+
+  /* Mobile */
+  @media (max-width: 640px) {
+    &__nav {
+      display: none;
+    }
+
+    &__title {
+      font-size: 20px;
+    }
+
+    &__item {
+      flex: 0 0 200px;
+    }
+
+    &__scroll {
+      gap: 12px;
+      margin: 0 -16px;
+      padding: 4px 16px 16px;
+    }
+  }
+}
