@@ -1,0 +1,67 @@
+<section class="catalog">
+  <!-- Encabezado -->
+  <div class="catalog__header">
+    <div class="catalog__title-row">
+      <h1 class="catalog__title">
+        @if (searchQuery()) {
+          Resultados para "{{ searchQuery() }}"
+        } @else if (selectedCategory()) {
+          {{ selectedCategory() }}
+        } @else {
+          Todos los productos
+        }
+      </h1>
+      @if (!isLoading()) {
+        <span class="catalog__count">{{ totalProducts() }} productos</span>
+      }
+    </div>
+
+    <!-- Filtros de categoría -->
+    <app-filter-bar
+      [categories]="categories()"
+      [selectedCategory]="selectedCategory()"
+      (categoryChange)="onCategoryChange($event)">
+    </app-filter-bar>
+
+    <!-- Controles de orden -->
+    <div class="catalog__controls">
+      <app-sort-controls
+        [currentSort]="currentSort()"
+        (sortChange)="onSortChange($event)">
+      </app-sort-controls>
+    </div>
+  </div>
+
+  <!-- Loading inicial -->
+  @if (isLoading()) {
+    <app-loading-skeleton [count]="8"></app-loading-skeleton>
+  } @else if (sortedProducts().length === 0) {
+    <app-empty-state
+      icon="🔍"
+      title="Sin resultados"
+      message="No encontramos productos que coincidan. Prueba con otra búsqueda o categoría.">
+    </app-empty-state>
+  } @else {
+    <!-- Grid de productos -->
+    <div class="catalog__grid">
+      @for (product of sortedProducts(); track product.id) {
+        <app-product-card
+          [product]="product"
+          (addToCart)="onAddToCart($event)">
+        </app-product-card>
+      }
+    </div>
+
+    <!-- Indicador de carga -->
+    @if (isLoadingMore()) {
+      <div class="catalog__loading-more">
+        <div class="catalog__spinner"></div>
+        <span>Cargando más productos...</span>
+      </div>
+    }
+
+    @if (!hasMore() && sortedProducts().length > 0) {
+      <p class="catalog__end-message">Has visto todos los productos</p>
+    }
+  }
+</section>
