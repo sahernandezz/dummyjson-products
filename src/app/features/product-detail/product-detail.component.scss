@@ -7,23 +7,41 @@
   /* Breadcrumb */
   &__breadcrumb {
     margin-bottom: 28px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    flex-wrap: wrap;
 
     &-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--color-primary);
+      color: var(--color-text-secondary);
       text-decoration: none;
-      padding: 6px 12px 6px 8px;
-      border-radius: var(--radius-md);
-      transition: background-color 0.18s var(--ease-out);
+      font-weight: 500;
+      transition: color 0.18s var(--ease-out);
 
       &:hover {
+        color: var(--color-text);
         text-decoration: none;
-        background: rgba(0, 113, 227, 0.08);
       }
+
+      &--cat {
+        text-transform: capitalize;
+      }
+    }
+
+    &-sep {
+      color: var(--color-border);
+      font-size: 14px;
+      line-height: 1;
+    }
+
+    &-current {
+      color: var(--color-text);
+      font-weight: 500;
+      max-width: 280px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
   }
 

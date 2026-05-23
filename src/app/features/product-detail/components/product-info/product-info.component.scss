@@ -60,6 +60,13 @@
     color: var(--color-text);
   }
 
+  &__price-original {
+    font-size: 17px;
+    color: var(--color-text-tertiary);
+    text-decoration: line-through;
+    font-weight: 500;
+  }
+
   &__discount {
     font-size: 13px;
     font-weight: 600;

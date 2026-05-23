@@ -16,6 +16,9 @@
   <div class="product-info__price-section">
     <span class="product-info__price">{{ product.price | currencyCop }}</span>
     @if (product.discountPercentage > 5) {
+      <span class="product-info__price-original">
+        {{ originalPrice() | currencyCop }}
+      </span>
       <span class="product-info__discount">-{{ product.discountPercentage | number:'1.0-0' }}%</span>
     }
   </div>
