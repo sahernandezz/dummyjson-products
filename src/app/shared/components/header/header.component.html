@@ -1,0 +1,38 @@
+<header class="header">
+  <div class="header__container">
+    <!-- Logo -->
+    <a routerLink="/" class="header__logo">
+      <span class="header__logo-icon">🛍️</span>
+      <span class="header__logo-text">Catálogo</span>
+    </a>
+
+    <!-- Barra de búsqueda -->
+    <div class="header__search">
+      <svg class="header__search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z" clip-rule="evenodd" />
+      </svg>
+      <input
+        type="text"
+        class="header__search-input"
+        placeholder="Buscar productos..."
+        [(ngModel)]="searchQuery"
+        (keyup.enter)="onSearch()"
+      />
+      @if (searchQuery.length > 0) {
+        <button class="header__search-clear" (click)="onClearSearch()">
+          ✕
+        </button>
+      }
+    </div>
+
+    <!-- Carrito -->
+    <button class="header__cart-btn" (click)="cartService.toggleCart()">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"/>
+      </svg>
+      @if (cartService.totalItems() > 0) {
+        <span class="header__cart-badge">{{ cartService.totalItems() }}</span>
+      }
+    </button>
+  </div>
+</header>

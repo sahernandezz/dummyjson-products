@@ -1,0 +1,48 @@
+<!-- Overlay -->
+@if (cartService.isCartOpen()) {
+  <div class="cart-overlay" (click)="cartService.closeCart()"></div>
+}
+
+<!-- Sidebar -->
+<aside class="cart-sidebar" [class.cart-sidebar--open]="cartService.isCartOpen()">
+  <div class="cart-sidebar__header">
+    <h2 class="cart-sidebar__title">Tu carrito</h2>
+    <button class="cart-sidebar__close" (click)="cartService.closeCart()" aria-label="Cerrar carrito">
+      ✕
+    </button>
+  </div>
+
+  <div class="cart-sidebar__body">
+    @if (cartService.items().length === 0) {
+      <app-empty-state
+        icon="🛒"
+        title="Carrito vacío"
+        message="Agrega productos desde el catálogo para verlos aquí.">
+      </app-empty-state>
+    } @else {
+      <div class="cart-sidebar__items">
+        @for (item of cartService.items(); track item.product.id) {
+          <app-cart-item
+            [item]="item"
+            (increase)="onIncrease(item.product.id)"
+            (decrease)="onDecrease(item.product.id)"
+            (remove)="onRemove(item.product.id)">
+          </app-cart-item>
+        }
+      </div>
+    }
+  </div>
+
+  @if (cartService.items().length > 0) {
+    <div class="cart-sidebar__footer">
+      <app-cart-summary
+        [totalItems]="cartService.totalItems()"
+        [totalPrice]="cartService.totalPrice()">
+      </app-cart-summary>
+
+      <button class="cart-sidebar__clear-btn" (click)="onClearCart()">
+        Vaciar carrito
+      </button>
+    </div>
+  }
+</aside>

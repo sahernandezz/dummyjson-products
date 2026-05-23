@@ -1,0 +1,46 @@
+<section class="detail">
+  <!-- Breadcrumb -->
+  <nav class="detail__breadcrumb">
+    <a routerLink="/" class="detail__breadcrumb-link">← Volver al catálogo</a>
+  </nav>
+
+  @if (isLoading()) {
+    <app-loading-skeleton [count]="1"></app-loading-skeleton>
+  } @else if (hasError()) {
+    <div class="detail__error">
+      <span class="detail__error-icon">😕</span>
+      <h2>Producto no encontrado</h2>
+      <p>No pudimos cargar este producto. <a routerLink="/">Volver al catálogo</a></p>
+    </div>
+  } @else if (product(); as p) {
+    <div class="detail__content">
+      <!-- Galería de imágenes -->
+      <div class="detail__gallery">
+        <app-image-carousel
+          [images]="p.images"
+          [alt]="p.title">
+        </app-image-carousel>
+      </div>
+
+      <!-- Información del producto -->
+      <div class="detail__info">
+        <app-product-info
+          [product]="p"
+          (addToCart)="onAddToCart()">
+        </app-product-info>
+      </div>
+    </div>
+
+    <!-- Sección inferior: dimensiones y reseñas -->
+    <div class="detail__extra">
+      <app-product-dimensions
+        [dimensions]="p.dimensions"
+        [weight]="p.weight">
+      </app-product-dimensions>
+
+      <app-product-reviews
+        [reviews]="p.reviews">
+      </app-product-reviews>
+    </div>
+  }
+</section>
