@@ -1,14 +1,21 @@
 <!-- Overlay -->
 @if (cartService.isCartOpen()) {
-  <div class="cart-overlay" (click)="cartService.closeCart()"></div>
+  <div class="cart-overlay" (click)="cartService.closeCart()" aria-hidden="true"></div>
 }
 
 <!-- Sidebar -->
-<aside class="cart-sidebar" [class.cart-sidebar--open]="cartService.isCartOpen()">
+<aside class="cart-sidebar" [class.cart-sidebar--open]="cartService.isCartOpen()" aria-label="Carrito de compras">
   <div class="cart-sidebar__header">
-    <h2 class="cart-sidebar__title">Tu carrito</h2>
+    <h2 class="cart-sidebar__title">
+      Tu carrito
+      @if (cartService.totalItems() > 0) {
+        <span class="cart-sidebar__title-count">{{ cartService.totalItems() }}</span>
+      }
+    </h2>
     <button class="cart-sidebar__close" (click)="cartService.closeCart()" aria-label="Cerrar carrito">
-      ✕
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+      </svg>
     </button>
   </div>
 
