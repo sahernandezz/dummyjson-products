@@ -1,0 +1,25 @@
+<div class="reviews">
+  <h3 class="reviews__title">Reseñas ({{ reviews.length }})</h3>
+
+  @if (reviews.length === 0) {
+    <p class="reviews__empty">Este producto aún no tiene reseñas.</p>
+  } @else {
+    <div class="reviews__list">
+      @for (review of reviews; track $index) {
+        <div class="reviews__item">
+          <div class="reviews__item-header">
+            <div class="reviews__avatar">
+              {{ review.reviewerName.charAt(0).toUpperCase() }}
+            </div>
+            <div class="reviews__item-meta">
+              <span class="reviews__reviewer">{{ review.reviewerName }}</span>
+              <span class="reviews__date">{{ review.date | date:'mediumDate' }}</span>
+            </div>
+            <app-star-rating [rating]="review.rating"></app-star-rating>
+          </div>
+          <p class="reviews__comment">{{ review.comment }}</p>
+        </div>
+      }
+    </div>
+  }
+</div>
