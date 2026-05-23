@@ -1,4 +1,5 @@
 import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
+import { Router } from '@angular/router';
 import { CartService } from '../../core/services/cart.service';
 import { NotificationService } from '../../core/services/notification.service';
 import { CartItemComponent } from './components/cart-item/cart-item.component';
@@ -16,6 +17,7 @@ import { EmptyStateComponent } from '../../shared/components/empty-state/empty-s
 export class CartComponent {
   cartService = inject(CartService);
   private notification = inject(NotificationService);
+  private router = inject(Router);
 
   onIncrease(productId: number): void {
     const item = this.cartService.items().find(i => i.product.id === productId);
@@ -39,5 +41,10 @@ export class CartComponent {
   onClearCart(): void {
     this.cartService.clearCart();
     this.notification.show('Carrito vaciado', 'info');
+  }
+
+  onContinueShopping(): void {
+    this.cartService.closeCart();
+    this.router.navigate(['/']);
   }
 }
