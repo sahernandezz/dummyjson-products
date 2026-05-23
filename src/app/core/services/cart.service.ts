@@ -1,12 +1,14 @@
-import { Injectable, computed, signal } from '@angular/core';
+import { Injectable, computed, effect, signal } from '@angular/core';
 import { CartItem } from '../models/cart.model';
 import { Product } from '../models/product.model';
+
+const STORAGE_KEY = 'cart_v1';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartService {
-  private cartItems = signal<CartItem[]>([]);
+  private cartItems = signal<CartItem[]>(this.loadFromStorage());
 
   readonly items = this.cartItems.asReadonly();
 
@@ -22,6 +24,13 @@ export class CartService {
   );
 
   readonly isCartOpen = signal(false);
+
+  constructor() {
+    // Persiste automáticamente cualquier cambio del carrito en localStorage
+    effect(() => {
+      this.saveToStorage(this.cartItems());
+    });
+  }
 
   /**
    * Agrega un producto al carrito o incrementa su cantidad
@@ -85,5 +94,59 @@ export class CartService {
 
   closeCart(): void {
     this.isCartOpen.set(false);
+  }
+
+  // ============================================
+  // Persistencia en localStorage
+  // ============================================
+
+  /**
+   * Carga el carrito desde localStorage. Tolerante a errores (SSR,
+   * modo privado del navegador, datos corruptos).
+   */
+  private loadFromStorage(): CartItem[] {
+    if (typeof localStorage === 'undefined') return [];
+
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return [];
+
+      const parsed = JSON.parse(raw);
+      if (!Array.isArray(parsed)) return [];
+
+      // Filtrado defensivo: solo items con la forma esperada
+      return parsed.filter(this.isValidCartItem);
+    } catch {
+      // JSON corrupto o cualquier error: empezar limpio
+      return [];
+    }
+  }
+
+  /**
+   * Guarda el carrito en localStorage
+   */
+  private saveToStorage(items: CartItem[]): void {
+    if (typeof localStorage === 'undefined') return;
+
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+    } catch {
+      // QuotaExceededError u otros — ignoramos silenciosamente
+    }
+  }
+
+  /**
+   * Valida que un objeto tenga la forma de CartItem
+   */
+  private isValidCartItem(item: unknown): item is CartItem {
+    if (!item || typeof item !== 'object') return false;
+    const candidate = item as Partial<CartItem>;
+    return (
+      candidate.product != null &&
+      typeof candidate.product === 'object' &&
+      typeof candidate.product.id === 'number' &&
+      typeof candidate.quantity === 'number' &&
+      candidate.quantity > 0
+    );
   }
 }
