@@ -1,61 +1,76 @@
 .detail {
   max-width: 1100px;
   margin: 0 auto;
-  padding: 24px 24px 64px;
+  padding: 28px 28px 80px;
+  animation: fadeIn 0.3s var(--ease-out);
 
+  /* Breadcrumb */
   &__breadcrumb {
-    margin-bottom: 24px;
+    margin-bottom: 28px;
 
     &-link {
-      font-size: 14px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 13px;
+      font-weight: 500;
       color: var(--color-primary);
       text-decoration: none;
+      padding: 6px 12px 6px 8px;
+      border-radius: var(--radius-md);
+      transition: background-color 0.18s var(--ease-out);
 
       &:hover {
-        text-decoration: underline;
+        text-decoration: none;
+        background: rgba(0, 113, 227, 0.08);
       }
     }
   }
 
+  /* Layout principal */
   &__content {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 48px;
+    gap: 56px;
     align-items: start;
   }
 
   &__gallery {
     position: sticky;
-    top: 80px;
+    top: calc(var(--header-height) + 24px);
   }
 
   &__info {
-    padding-top: 8px;
+    padding-top: 4px;
+    animation: fadeInUp 0.4s var(--ease-out) 0.1s backwards;
   }
 
+  /* Sección inferior */
   &__extra {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 48px;
-    margin-top: 48px;
-    padding-top: 32px;
-    border-top: 1px solid var(--color-border);
+    grid-template-columns: 1fr 1.4fr;
+    gap: 56px;
+    margin-top: 64px;
+    padding-top: 40px;
+    border-top: 1px solid var(--color-border-light);
   }
 
+  /* Error */
   &__error {
     text-align: center;
-    padding: 80px 24px;
+    padding: 96px 24px;
 
     &-icon {
-      font-size: 48px;
+      font-size: 56px;
       display: block;
-      margin-bottom: 16px;
+      margin-bottom: 20px;
     }
 
     h2 {
-      font-size: 22px;
-      font-weight: 600;
-      margin: 0 0 8px;
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin: 0 0 10px;
     }
 
     p {
@@ -65,13 +80,14 @@
   }
 }
 
-@media (max-width: 768px) {
+/* Tablet */
+@media (max-width: 900px) {
   .detail {
-    padding: 16px 16px 48px;
+    padding: 20px 20px 56px;
 
     &__content {
       grid-template-columns: 1fr;
-      gap: 24px;
+      gap: 32px;
     }
 
     &__gallery {
@@ -80,7 +96,15 @@
 
     &__extra {
       grid-template-columns: 1fr;
-      gap: 32px;
+      gap: 40px;
+      margin-top: 48px;
     }
+  }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .detail {
+    padding: 16px 16px 48px;
   }
 }

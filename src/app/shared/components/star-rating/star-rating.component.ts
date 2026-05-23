@@ -22,9 +22,10 @@ import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
       gap: 1px;
     }
     .star {
-      color: #d2d2d7;
+      color: var(--color-border);
       font-size: 14px;
       line-height: 1;
+      transition: color 0.2s var(--ease-out);
     }
     .star--filled {
       color: #ff9500;
@@ -33,10 +34,11 @@ import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
       color: #ffb84d;
     }
     .rating-text {
-      margin-left: 6px;
+      margin-left: 8px;
       font-size: 13px;
-      color: #6e6e73;
-      font-weight: 500;
+      color: var(--color-text-secondary);
+      font-weight: 600;
+      letter-spacing: -0.005em;
     }
   `]
 })
