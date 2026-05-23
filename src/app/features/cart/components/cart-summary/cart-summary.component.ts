@@ -20,32 +20,36 @@ import { CurrencyCopPipe } from '../../../../shared/pipes/currency-cop.pipe';
   `,
   styles: [`
     .cart-summary {
-      padding-top: 16px;
-      border-top: 1px solid #d2d2d7;
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 10px;
 
       &__row {
         display: flex;
         justify-content: space-between;
-        font-size: 14px;
-        color: #6e6e73;
+        font-size: 13px;
+        color: var(--color-text-secondary);
 
         &--total {
-          padding-top: 8px;
+          padding-top: 12px;
+          margin-top: 4px;
+          border-top: 1px solid var(--color-border-light);
           font-weight: 600;
-          color: #1d1d1f;
-          font-size: 16px;
+          color: var(--color-text);
+          font-size: 15px;
+          letter-spacing: -0.01em;
         }
       }
 
       &__value {
         font-weight: 500;
+        color: var(--color-text);
       }
 
       &__total-value {
-        font-size: 18px;
+        font-size: 20px;
+        font-weight: 700;
+        letter-spacing: -0.025em;
       }
     }
   `]

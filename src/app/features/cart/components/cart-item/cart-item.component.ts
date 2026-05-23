@@ -30,19 +30,22 @@ import { CurrencyCopPipe } from '../../../../shared/pipes/currency-cop.pipe';
   styles: [`
     .cart-item {
       display: flex;
-      gap: 12px;
-      padding: 14px 0;
-      border-bottom: 1px solid #f0f0f0;
+      gap: 14px;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--color-border-light);
       align-items: flex-start;
+      animation: fadeInUp 0.25s var(--ease-out);
+
+      &:last-child { border-bottom: none; }
 
       &__img {
-        width: 64px;
-        height: 64px;
+        width: 72px;
+        height: 72px;
         object-fit: contain;
-        border-radius: 8px;
-        background: #f5f5f7;
+        border-radius: var(--radius-md);
+        background: var(--color-bg-tertiary);
         flex-shrink: 0;
-        padding: 4px;
+        padding: 6px;
       }
 
       &__details {
@@ -50,12 +53,14 @@ import { CurrencyCopPipe } from '../../../../shared/pipes/currency-cop.pipe';
         display: flex;
         flex-direction: column;
         gap: 4px;
+        min-width: 0;
       }
 
       &__title {
         font-size: 14px;
         font-weight: 500;
-        color: #1d1d1f;
+        line-height: 1.35;
+        color: var(--color-text);
         margin: 0;
         display: -webkit-box;
         -webkit-line-clamp: 2;
@@ -65,52 +70,68 @@ import { CurrencyCopPipe } from '../../../../shared/pipes/currency-cop.pipe';
 
       &__price {
         font-size: 14px;
-        font-weight: 600;
-        color: #1d1d1f;
+        font-weight: 700;
+        color: var(--color-text);
+        letter-spacing: -0.01em;
       }
 
       &__qty {
-        display: flex;
+        display: inline-flex;
         align-items: center;
-        gap: 8px;
-        margin-top: 4px;
+        gap: 4px;
+        margin-top: 6px;
+        background: var(--color-bg-tertiary);
+        border-radius: var(--radius-full);
+        padding: 2px;
+        width: fit-content;
       }
 
       &__qty-btn {
-        width: 28px;
-        height: 28px;
+        width: 26px;
+        height: 26px;
         border-radius: 50%;
-        border: 1px solid #d2d2d7;
-        background: #fff;
-        font-size: 14px;
+        border: none;
+        background: transparent;
+        font-size: 13px;
+        font-weight: 600;
         display: flex;
         align-items: center;
         justify-content: center;
-        color: #1d1d1f;
+        color: var(--color-text);
+        transition: background-color 0.15s var(--ease-out);
 
         &:hover {
-          background: #f5f5f7;
+          background: #fff;
         }
       }
 
       &__qty-value {
-        font-size: 14px;
-        font-weight: 500;
-        min-width: 20px;
+        font-size: 13px;
+        font-weight: 600;
+        min-width: 22px;
         text-align: center;
+        color: var(--color-text);
       }
 
       &__remove {
         background: none;
         border: none;
-        color: #6e6e73;
-        font-size: 14px;
-        padding: 4px;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        color: var(--color-text-tertiary);
+        font-size: 13px;
+        padding: 0;
         flex-shrink: 0;
         margin-top: 2px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.18s var(--ease-out);
 
         &:hover {
-          color: #ff3b30;
+          color: var(--color-danger);
+          background: rgba(255, 59, 48, 0.08);
         }
       }
     }
