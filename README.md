@@ -89,34 +89,38 @@ src/app/
 │       ├── cart.service.ts      # Estado del carrito con Signals
 │       └── notification.service.ts
 │
-├── shared/                      # Componentes reutilizables
+├── shared/                       # Componentes reutilizables
 │   ├── components/
-│   │   ├── header/              # Header con búsqueda y badge del carrito
-│   │   ├── image-carousel/      # Carrusel de imágenes con dots
-│   │   ├── star-rating/         # Estrellas de calificación
-│   │   ├── loading-skeleton/    # Placeholders animados
-│   │   ├── empty-state/         # Estado vacío
-│   │   └── toast/               # Notificaciones toast
+│   │   ├── header/               # Header con búsqueda y badge del carrito
+│   │   ├── footer/               # Footer minimalista con atribución
+│   │   ├── scroll-top/           # Botón flotante para volver arriba
+│   │   ├── image-carousel/       # Carrusel de imágenes con dots
+│   │   ├── star-rating/          # Estrellas de calificación
+│   │   ├── loading-skeleton/     # Placeholders animados (shimmer)
+│   │   ├── empty-state/          # Estado vacío
+│   │   └── toast/                # Notificaciones toast
 │   ├── pipes/
-│   │   └── currency-cop.pipe.ts # Conversión USD → COP
+│   │   └── currency-cop.pipe.ts  # Conversión USD → COP
 │   └── directives/
 │       └── lazy-image.directive.ts # Lazy loading con IntersectionObserver
 │
-└── features/                    # Módulos de negocio (lazy loaded)
-    ├── catalog/                 # Listado de productos
+└── features/                     # Módulos de negocio (lazy loaded)
+    ├── catalog/                  # Listado de productos
     │   └── components/
-    │       ├── product-card/    # Tarjeta de producto
-    │       ├── sort-controls/   # Controles de ordenamiento
-    │       └── filter-bar/      # Filtro por categorías
-    ├── product-detail/          # Vista de detalle
+    │       ├── product-card/     # Tarjeta de producto
+    │       ├── sort-controls/    # Controles de ordenamiento
+    │       └── filter-bar/       # Filtro por categorías
+    ├── product-detail/           # Vista de detalle
     │   └── components/
-    │       ├── product-info/    # Información principal
-    │       ├── product-reviews/ # Reseñas de usuarios
-    │       └── product-dimensions/
-    └── cart/                    # Carrito de compras (sidebar)
+    │       ├── product-info/     # Información principal + CTA
+    │       ├── product-reviews/  # Reseñas de usuarios
+    │       ├── product-dimensions/
+    │       ├── detail-skeleton/  # Skeleton específico del detalle
+    │       └── related-products/ # Carrusel de productos relacionados
+    └── cart/                     # Carrito de compras (sidebar)
         └── components/
-            ├── cart-item/       # Item individual
-            └── cart-summary/    # Resumen y total
+            ├── cart-item/        # Item individual
+            └── cart-summary/     # Resumen y total
 ```
 
 ## Decisiones de arquitectura
@@ -129,6 +133,10 @@ Se usa la API de Signals de Angular para el estado reactivo del carrito, lo que 
 - Menos boilerplate que NgRx/RxJS para estado local
 - Change detection granular automático
 - Computed values derivados (totalItems, totalPrice)
+- `effect()` sincroniza automáticamente cambios con localStorage
+
+### Persistencia del carrito
+El carrito se persiste en `localStorage` (key versionada `cart_v1`) usando un `effect()` de Angular que reacciona a cualquier cambio del signal. Sobrevive a refresh y reinicios del navegador. Implementación tolerante a errores (SSR, modo privado, JSON corrupto, quota excedida).
 
 ### Lazy Loading de rutas
 Cada feature (catalog, product-detail) se carga bajo demanda, reduciendo el bundle inicial.
@@ -151,6 +159,7 @@ El servicio de productos cachea la lista de categorías usando `shareReplay(1)` 
 - **trackBy en listas**: evita re-renders innecesarios del DOM
 - **Caché de API**: categorías cacheadas con `shareReplay`
 - **View Transitions**: transiciones suaves entre vistas con la API nativa
+- **Persistencia del carrito**: estado del carrito guardado en localStorage para no perderlo al refrescar
 
 ## Consideraciones de seguridad
 
@@ -174,11 +183,11 @@ ng test --watch
 
 Se incluyen tests unitarios para:
 
-- **Servicios**: `CartService` (13 tests), `ProductService` (6 tests), `NotificationService` (7 tests)
+- **Servicios**: `CartService` (18 tests, incluye 5 de persistencia), `ProductService` (6 tests), `NotificationService` (7 tests)
 - **Pipes**: `CurrencyCopPipe` (7 tests)
 - **Componentes**: `ProductCardComponent` (6 tests), `SortControlsComponent` (4 tests), `App` (4 tests), `FooterComponent` (5 tests), `ScrollTopComponent` (5 tests)
 
-Total: **58 tests** cubriendo la lógica de negocio principal, llamadas HTTP con mocks, y renderizado de componentes.
+Total: **63 tests** cubriendo la lógica de negocio principal, persistencia en localStorage, llamadas HTTP con mocks, y renderizado de componentes.
 
 ## API consumida
 
@@ -212,3 +221,5 @@ El proyecto sigue el flujo Gitflow con versionado semántico:
 | `v1.2.0` | UI polish: footer, back-to-top, breadcrumb mejorado, precio original |
 | `v1.3.0` | UX improvements: cards uniformes, breadcrumb funcional, detalle rediseñado, productos relacionados |
 | `v1.4.0` | Card click fix, CTA negro, meta info, Docker + nginx setup |
+| `v1.4.1` | Hotfix: Docker build (nginx.conf en context + npm install para deps platform-specific) |
+| `v1.5.0` | Carrito persistente en localStorage con `effect()`, sobrevive refresh |
