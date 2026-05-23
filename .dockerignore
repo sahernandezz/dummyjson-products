@@ -11,8 +11,5 @@ coverage
 README.md
 LICENSE
 .github
-.dockerignore
-Dockerfile
 docker-compose.yml
-nginx.conf
 .env*
