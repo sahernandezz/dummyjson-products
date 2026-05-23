@@ -1,24 +1,24 @@
 <article class="product-card">
-  <!-- Imagen / Carrusel (interactivo, no navega) -->
-  <div class="product-card__image-wrapper">
-    <app-image-carousel
-      [images]="product.images"
-      [alt]="product.title">
-    </app-image-carousel>
-
-    @if (product.discountPercentage > 5) {
-      <span class="product-card__badge">
-        -{{ product.discountPercentage | number:'1.0-0' }}%
-      </span>
-    }
-
-    @if (product.stock === 0) {
-      <span class="product-card__badge product-card__badge--out">Agotado</span>
-    }
-  </div>
-
-  <!-- Área clickeable que navega al detalle -->
   <a [routerLink]="['/product', product.id]" class="product-card__link">
+    <!-- Imagen / Carrusel: la imagen abre el producto, los botones NO -->
+    <div class="product-card__image-wrapper">
+      <app-image-carousel
+        [images]="product.images"
+        [alt]="product.title">
+      </app-image-carousel>
+
+      @if (product.discountPercentage > 5) {
+        <span class="product-card__badge">
+          -{{ product.discountPercentage | number:'1.0-0' }}%
+        </span>
+      }
+
+      @if (product.stock === 0) {
+        <span class="product-card__badge product-card__badge--out">Agotado</span>
+      }
+    </div>
+
+    <!-- Info -->
     <div class="product-card__info">
       <span class="product-card__category">{{ product.category }}</span>
       <h3 class="product-card__title">{{ product.title }}</h3>
@@ -34,7 +34,7 @@
     </div>
   </a>
 
-  <!-- Botón agregar al carrito -->
+  <!-- Botón agregar al carrito (fuera del link) -->
   <button
     class="product-card__cart-btn"
     (click)="onAddToCart($event)"

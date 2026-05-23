@@ -15,17 +15,29 @@ export class ImageCarouselComponent {
 
   currentIndex = signal(0);
 
-  next(): void {
+  next(event?: Event): void {
+    this.stopBubble(event);
     if (this.images.length === 0) return;
     this.currentIndex.update(i => (i + 1) % this.images.length);
   }
 
-  prev(): void {
+  prev(event?: Event): void {
+    this.stopBubble(event);
     if (this.images.length === 0) return;
     this.currentIndex.update(i => (i - 1 + this.images.length) % this.images.length);
   }
 
-  goTo(index: number): void {
+  goTo(index: number, event?: Event): void {
+    this.stopBubble(event);
     this.currentIndex.set(index);
+  }
+
+  /**
+   * Evita que el click se propague al elemento padre (ej. <a routerLink>)
+   * para que los controles del carrusel no abran el producto
+   */
+  private stopBubble(event?: Event): void {
+    event?.stopPropagation();
+    event?.preventDefault();
   }
 }
